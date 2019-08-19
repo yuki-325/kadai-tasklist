@@ -80,10 +80,6 @@ class TasksController extends Controller
         $user = \App\User::find($id);
         $task = Task::find($id);
         
-        /*return view('tasks.show', [
-                'task' => $task,
-                'user' => $user,
-            ]);*/
         
         if (\Auth::id() == $task->user_id) {
             return view('tasks.show', [
@@ -107,12 +103,21 @@ class TasksController extends Controller
      // getでtasks/id/editにアクセスされた場合の「更新画面表示処理」
     public function edit($id)
     {
+        
+            
+        $user = \App\User::find($id);
         $task = Task::find($id);
         
-        return view('tasks.edit', [
+        if (\Auth::id() == $task->user_id) {
+            return view('tasks.edit', [
                 'task' => $task,
+                'user' => $user,
             ]);
             
+        }
+        else{
+            return redirect('/');
+        }    
          
     }
 
